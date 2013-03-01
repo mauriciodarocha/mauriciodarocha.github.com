@@ -1,0 +1,187 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Vtex Quick Cart por Mauricio Rocha</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>Vtex Quick Cart</h1>
+        <p>Carrinho Dropdown com Lista de Produtos.</p>
+
+        <p class="view"><a href="https://github.com/mauriciodarocha/vtex-quick-cart">Veja o projeto no GitHub <small>mauriciodarocha/vtex-sizes-table</small></a></p>
+
+
+        <ul>
+          <li><a href="https://github.com/mauriciodarocha/vtex-quick-cart/zipball/master">Baixe <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/mauriciodarocha/vtex-quick-cart">Veja em <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+
+      <section>
+        <h3>Siga as intruções deste documento para utilização do plugin.</h3>
+
+<ol>
+  
+<li>Baixe os arquivos para o seu computador. Para isso, utilize o GIT ou os links ZIP desta página.</li>
+
+</ol>
+
+<h3>Adicione um dropdown com os produtos inseridos em seu carrinho.</h3>
+
+<img src="img/quickcart-01.png" alt="Carrinho Dropdown Exemplo">
+
+<p>&nbsp;</p>
+<h3>Uso básico:</h3>
+
+<h4>Adiciona em seu template:</h4>
+
+
+<pre>
+  <code>
+    &lt;div class="tpl-cart tpl-cart-dropdown"&gt;
+      &lt;a href="/Site/Carrinho.aspx" class="cart-link"&gt;
+        &lt;span class="cart-title"&gt;Meu Carrinho&lt;/span&gt;
+          &lt;span class="cart-summary clearfix"&gt;
+            &lt;span class="amount-items"&gt;&lt;/span&gt;
+            &lt;span class="total-price-container"&gt;&lt;/span&gt;
+          &lt;/span&gt;
+      &lt;/a&gt;
+      &lt;div class="cart-dropdown"&gt;&lt;/div&gt;
+    &lt;/div&gt;
+  </code>
+</pre>
+    
+<h4>Adicione em seu template dentro de &lt;script type="text/javascript"&gt;&lt;/script&gt; ou dentro de um arquivo javascript:</h4>
+
+<pre>
+  <code>
+    jQuery.vtex_quick_cart();
+  </code>
+</pre>
+
+<p>&nbsp;</p>    
+<h3>Opções</h3>
+
+<p>O carrinho tem opções para apresentar apenas informações básicas, como quantidade de produtos e valor total do carrinho sem o dropdown.</p>
+
+<img src="img/quickcart-02.png" alt="Carrinho Dropdown Exemplo">
+<p>Carrinho sem o dropdown, ideal para páginas simples.*</p>
+<p>&nbsp;</p>
+<h3>Defina as opções em um objeto javascript antes de fazer sua chamada.</h3>
+
+<pre>
+  <code>
+    var options = {
+      dropdown: false
+    }
+    jQuery.vtex_quick_cart(options);
+  </code>
+</pre>
+
+<p><strong>ou</strong></p>
+
+<pre>
+  <code>
+    jQuery.vtex_quick_cart({
+      dropdown: false
+    });
+  </code>
+</pre>
+
+<p>Não se esqueça que o css (stylesheet) é com você. Afinal, cada loja tem seu próprio design.</p>
+<p>&nbsp;</p>
+<h3>Opções avançadas</h3>
+
+<p>Existem várias opções para montagem do quick cart, várias delas podem melhorar o desempenho e uma melhor customização do produto final.</p>
+
+<pre>
+  <code>
+    var options = {
+      container: ".cart-dropdown",
+      items: ".amount-items",
+      list: ".cart-list",
+      price_label: "R$ ", 
+      total_price_currency: "R$ ", 
+      total_price_container: ".total-price-container",
+      total_price_label: "",
+      cart_conclude:null,
+      remove_btn:false,
+      finish_order_btn: ".finish-order-btn",
+      finish_order_btn_link: "/Site/Carrinho.aspx",
+      finish_order_btn_text: "Finalizar compra",
+      items_text: ['nenhum item','item','itens'],
+      hover: ".tpl-cart",
+      callback:null,
+      cart_empty_cb:null,
+      total_price_class: '.total-price',
+      total_price_label_class: '.total-price-label',
+      dropdown: true,
+      show_images: true
+    }
+  </code>
+</pre>
+<p>&nbsp;</p>
+
+<h3>Refresh (recarregar)</h3>
+
+<p>O Vtex quick cart ainda apresenta a opção de recarregá-lo para mostragem de produtos se necessário.</p>
+<p>Este tipo de opção é utilizado quando a página apresenta recursos de adição de produtos com um clique simples (add to cart).</p>
+<p>Ao final de cada "add to cart", pode-se fazer uma chamada, resultando em um carrinho atualizado.</p>
+
+<p>Carregue o carrinho em uma variável. O seu funcionamento será normal, porém com a opção do método "refresh".</p>
+<pre>
+  <code>
+    var meu_carrinho = jQuery.vtex_quick_cart();
+    meu_carrinho.refresh();
+  </code>
+</pre>
+
+<p>Execute a lógica do seu "add to cart" normalmente, e ao final, execute meu_carrinho.refresh() para que o carrinho recarregue e mostre o produto adicionado.</p>
+<p>&nbsp;</p>
+<h3>Vtex Quick Cart em barra flutuante**</h3>
+
+<img src="img/quickcart-03.png" alt="Carrinho Dropdown Exemplo">
+
+<p>Não há nada de especial no código para esta funcionalidade, apenas um pequeno truque.</p>
+<p>Contrua sua barra flutuante normalmente, com o css "position:fixed;" e "display:none;"</p>
+<p>Utilize o jQuery para detectar o scroll da janela como é feito normalmente para a barra flutuante, mas adicione uma modificação no div do dropdown para ficar com "position:fixed;" e qualquer outra característica necessária para o seu layout.</p>
+<p>Minha sugestão é a adição de uma classe que já contém todas características para este posicionamento.</p>
+
+<pre>
+  <code>
+    jQuery(window).scroll(function(){
+      // contrua a lógica que melhor aplica a sua loja
+      // if(jQuery(this).scrollTop() &gt; x)
+      //  montrando barra "fade in"
+      //  adicionando classe para manter o 
+      //  dropdown fixed e em posição, top, etc.
+
+      // if(jQuery(this).scrollTop() &lt= x)
+      // esconda barra "fade out"
+      // remova classe que mantem o dropdown
+      // em posição.
+    });
+  </code>
+</pre>
+<p><strong>Obs. 1:</strong> Utilize a opção simplificada quando achar que não é necessário a mostragem dos produtos do carrinho, evitando o carregamento da lista e melhorando desempenho do quick cart.</p>
+<p><strong>Obs. 2:</strong> A utilização em barra flutuante depende do programador de front-end configurar o que é melhor para a loja que ele está trabalhando</p>
+      </section>
+      <footer>
+        <p>Este projeto é mantido por <a href="https://github.com/mauriciodarocha">Mauricio Rocha</a></p>
+        <p><small>Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+      </footer>
+    </div>
+    <script src="javascripts/scale.fix.js"></script>
+    
+  </body>
+</html>
